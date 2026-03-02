@@ -105,7 +105,7 @@ export const projects = [
   },
   {
     badge: "VS Code Extension",
-    badgeColor: "violet",
+    badgeColor: "blue",
     title: "CodeGraph",
     description:
       "TS/JS 코드의 함수, 클래스, 메서드, 타입 관계를 분석해 Node/Edge 그래프로 시각화하는 VS Code Extension입니다.",
@@ -173,7 +173,7 @@ export const projects = [
     role: "Data Engineer / Developer",
     challenge: "Multi-source Feature Engineering",
     outcome:
-      "2025 BLEP 공전 데이터 활용 경진대회 장려상 / 한국 데이터 사이언스 학회 최우수 논문상",
+      "2025 한국 데이터 사이언스 학회 최우수 논문상 / BLEP 공전 데이터 활용 경진대회 장려상",
     deepDive: {
       problem:
         "복잡한 교통량 Data와 소음의 상관관계를 Machine Learning Model을 통해 예측하고 Visualization할 필요가 있었습니다.",
