@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product-Led Frontend Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#3b82f6", // Electric Blue
+                        "primary-hover": "#2563eb",
+                        "violet-accent": "#8b5cf6",
+                        "background-light": "#f8f9fa",
+                        "background-dark": "#0f172a", // Dark Charcoal/Slate
+                        "surface-dark": "#1e293b",
+                        "surface-light": "#ffffff",
+                        "code-bg": "#111827",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Public Sans", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'flow-h': 'flow-h 15s linear infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'flow-h': {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '100%': { backgroundPosition: '100% 50%' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-panel-light {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        .connection-line {
+            stroke-dasharray: 6;
+            animation: dash 30s linear infinite;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col">
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="text-primary p-1 bg-primary/10 rounded-md">
+<span class="material-symbols-outlined text-2xl">code_off</span>
+</div>
+<span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Portfolio.dev</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#expertise">Expertise</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#stack">Stack</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#projects">Work</a>
+<button class="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+<span class="mr-2 material-symbols-outlined text-[18px]">download</span>
+                        Resume
+                    </button>
+</nav>
+<button class="md:hidden text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<section class="relative overflow-hidden py-20 sm:py-24 lg:pb-32 xl:pb-36 bg-background-dark">
+<div class="absolute inset-0 z-0">
+<div class="absolute top-0 -left-4 w-96 h-96 bg-primary/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob"></div>
+<div class="absolute top-0 -right-4 w-96 h-96 bg-violet-accent/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+<div class="absolute -bottom-8 left-20 w-96 h-96 bg-blue-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+<div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+<div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+<div class="flex-1 text-center lg:text-left">
+<div class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary mb-6 backdrop-blur-sm">
+<span class="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
+                        Open to Work
+                    </div>
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+                        Building Interactive Products with <br/>
+<span class="text-gradient">Clean Frontend Engineering</span>
+</h1>
+<p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        I build pixel-perfect, performant interfaces with a focus on scalable architecture and intuitive user experiences. Transforming complex requirements into elegant product solutions.
+                    </p>
+<div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+<a class="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary-hover hover:translate-y-[-2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" href="#projects">
+                            View Selected Work
+                            <span class="ml-2 material-symbols-outlined text-[20px]">arrow_forward</span>
+</a>
+<a class="inline-flex h-12 items-center justify-center rounded-lg border border-slate-700 bg-slate-800/50 backdrop-blur-sm px-8 text-sm font-bold text-white hover:bg-slate-800 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400" href="#">
+<span class="mr-2 material-symbols-outlined text-[20px]">code</span>
+                            GitHub
+                        </a>
+</div>
+</div>
+<div class="flex-1 w-full relative h-[500px] hidden lg:block">
+<div class="relative w-full h-full perspective-1000">
+<div class="absolute top-10 right-10 w-[85%] h-[340px] glass-panel rounded-xl border border-slate-700/50 p-6 opacity-90 transition-all hover:opacity-100 duration-500 z-10 shadow-2xl">
+<div class="flex justify-between items-center mb-6 border-b border-slate-700/50 pb-4">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+<div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+<div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+</div>
+<div class="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Store.ts</div>
+</div>
+<div class="relative h-full w-full">
+<div class="absolute top-0 left-0 p-3 bg-surface-dark border border-slate-600 rounded-lg w-32 shadow-lg">
+<div class="text-[10px] text-primary mb-1">Atom</div>
+<div class="h-1.5 w-16 bg-slate-600 rounded mb-1"></div>
+<div class="h-1.5 w-10 bg-slate-700 rounded"></div>
+</div>
+<div class="absolute top-12 left-40 p-3 bg-surface-dark border border-violet-accent/50 rounded-lg w-32 shadow-lg ring-1 ring-violet-accent/20">
+<div class="text-[10px] text-violet-accent mb-1">Selector</div>
+<div class="h-1.5 w-20 bg-slate-600 rounded mb-1"></div>
+</div>
+<div class="absolute top-32 left-10 p-3 bg-surface-dark border border-slate-600 rounded-lg w-32 shadow-lg">
+<div class="text-[10px] text-primary mb-1">Atom</div>
+<div class="h-1.5 w-14 bg-slate-600 rounded"></div>
+</div>
+<svg class="absolute inset-0 pointer-events-none w-full h-full">
+<path class="opacity-50" d="M128 25 C145 25, 145 70, 160 70" fill="none" stroke="#64748b" stroke-width="2"></path>
+<path class="opacity-50" d="M128 150 C145 150, 145 80, 160 80" fill="none" stroke="#64748b" stroke-width="2"></path>
+<path class="connection-line" d="M288 70 C310 70, 310 160, 330 160" fill="none" stroke="#8b5cf6" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<div class="absolute bottom-12 left-0 w-[240px] h-[280px] glass-panel bg-surface-dark/95 rounded-2xl border border-slate-700 shadow-2xl z-20 animate-float">
+<div class="absolute -right-4 top-10 w-full h-full bg-primary/10 rounded-2xl blur-xl -z-10"></div>
+<div class="p-4 h-full flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<div class="h-2 w-12 bg-slate-600 rounded"></div>
+<span class="material-symbols-outlined text-slate-500 text-sm">settings</span>
+</div>
+<div class="flex-1 space-y-3 overflow-hidden">
+<div class="relative group">
+<div class="h-24 w-full bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg border border-slate-700 overflow-hidden relative">
+<div class="absolute inset-0 bg-primary/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+</div>
+<div class="mt-2 flex gap-2">
+<div class="h-2 w-16 bg-slate-700 rounded"></div>
+<div class="h-2 w-8 bg-primary/40 rounded"></div>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="h-16 w-1/2 bg-slate-800 rounded-lg border border-slate-700"></div>
+<div class="h-16 w-1/2 bg-slate-800 rounded-lg border border-slate-700"></div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-800 flex justify-between items-center">
+<div class="text-[10px] text-slate-400">Rendering: 60fps</div>
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+</div>
+</div>
+</div>
+<div class="absolute top-40 right-4 w-[180px] glass-panel bg-[#0f172a]/95 rounded-lg border border-slate-700 p-3 shadow-xl transform rotate-3 z-30">
+<div class="font-mono text-[9px] leading-relaxed text-slate-300">
+<span class="text-violet-400">interface</span> <span class="text-yellow-200">Props</span> {<br/>
+                                  active: <span class="text-blue-300">boolean</span>;<br/>
+                                  data: <span class="text-blue-300">Node[]</span>;<br/>
+                                }<br/>
+<span class="text-slate-500">// Memoized</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-light dark:bg-background-dark" id="expertise">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="mb-16 text-center max-w-3xl mx-auto">
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">My Core Focus</h2>
+<p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+                        I don't just write code; I build product experiences. My approach combines technical depth with a keen eye for interaction design.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="group relative p-8 rounded-2xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-primary/50 dark:hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-primary/5">
+<div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-slate-900 dark:text-white">touch_app</span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined text-2xl">gesture</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Interactive Implementation</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                             Specialized in fluid UI and micro-interactions using framer-motion. Ensuring every state change feels deliberate and polished.
+                        </p>
+</div>
+<div class="group relative p-8 rounded-2xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-violet-accent/50 dark:hover:border-violet-accent/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-violet-accent/5">
+<div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-slate-900 dark:text-white">architecture</span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-violet-50 dark:bg-violet-900/20 flex items-center justify-center text-violet-accent mb-6">
+<span class="material-symbols-outlined text-2xl">dns</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Component-Driven Systems</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Building modular React architectures and Design Tokens. I create scalable component libraries that empower teams to ship faster.
+                        </p>
+</div>
+<div class="group relative p-8 rounded-2xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 hover:border-pink-500/50 dark:hover:border-pink-500/50 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-pink-500/5">
+<div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-slate-900 dark:text-white">rocket_launch</span>
+</div>
+<div class="w-12 h-12 rounded-lg bg-pink-50 dark:bg-pink-900/20 flex items-center justify-center text-pink-500 mb-6">
+<span class="material-symbols-outlined text-2xl">model_training</span>
+</div>
+<h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Product-Focused Execution</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Rapidly turning MVP logic into reality with fast prototyping. I bridge the gap between engineering constraints and product goals.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 bg-slate-50 dark:bg-[#0b1120] border-y border-slate-200 dark:border-slate-800" id="stack">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-10">Technical Toolkit</h2>
+<div class="space-y-8">
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center border-b border-slate-200 dark:border-slate-800/50 pb-8 last:border-0 last:pb-0">
+<div class="w-32 flex-shrink-0">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Core Stack</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">code_blocks</span> React
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">data_object</span> TypeScript
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">rocket</span> Next.js
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">brush</span> Tailwind CSS
+                            </span>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center border-b border-slate-200 dark:border-slate-800/50 pb-8 last:border-0 last:pb-0">
+<div class="w-32 flex-shrink-0">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Visual &amp; Motion</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">view_in_ar</span> Three.js
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">animation</span> Framer Motion
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">bar_chart</span> D3.js
+                            </span>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+<div class="w-32 flex-shrink-0">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Tools</h3>
+</div>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">design_services</span> Figma
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">webhook</span> Git / GitHub
+                            </span>
+<span class="px-4 py-2 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">terminal</span> Vercel
+                            </span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-light dark:bg-background-dark" id="projects">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">Featured Projects</h2>
+<p class="mt-4 text-lg text-slate-600 dark:text-slate-400">Product-grade applications demonstrating end-to-end ownership.</p>
+</div>
+<a class="hidden sm:inline-flex items-center text-primary font-medium hover:text-primary-hover transition-colors" href="#">
+                        View full archive
+                        <span class="material-symbols-outlined ml-1">arrow_right_alt</span>
+</a>
+</div>
+<div class="grid grid-cols-1 gap-16">
+<div class="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-7 rounded-2xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg hover:shadow-primary/10 transition-all duration-300 relative aspect-video">
+<div class="absolute inset-0 bg-gradient-to-tr from-slate-900/10 to-transparent z-10"></div>
+<img alt="Modern dashboard interface on a laptop screen with data visualization charts" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVQeiF5h2yBmcwVhkw5UZ3OxvfppzicPHEL1SOecIFJLxpT3-rRl5vi62BNFXXfm58TGbw87WMpyGbSwUg6WtGrhSefx5WR9g9MUdTzDiA-ykJu-xBUVL3PPn22YoSWjPaoX82MPyJlxEI5eBCXZqzlP5vZXBIkOlrwE8SuLraSvpzzGxiFviAiMPbf8RJUPWp1Ei53XjoMe3GVQE1hmLxTPZNKT0nPuP77sIe641m9JRAFpB7tlaKzqni-9Fc2qm9xRCSia1tvQ"/>
+</div>
+<div class="lg:col-span-5 flex flex-col h-full">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">Live Production</span>
+</div>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Quantix: Real-time Analytics Engine</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                                A high-performance financial platform featuring complex state management and SVG rendering. Designed to handle thousands of data points without UI lag.
+                            </p>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 text-sm mb-6 border-t border-b border-slate-200 dark:border-slate-800 py-4">
+<div>
+<span class="block text-slate-500 dark:text-slate-500 text-xs uppercase font-semibold">Role</span>
+<span class="text-slate-800 dark:text-slate-200">Lead Frontend</span>
+</div>
+<div>
+<span class="block text-slate-500 dark:text-slate-500 text-xs uppercase font-semibold">Challenge</span>
+<span class="text-slate-800 dark:text-slate-200">Real-time Syncing</span>
+</div>
+<div class="col-span-2">
+<span class="block text-slate-500 dark:text-slate-500 text-xs uppercase font-semibold">Outcome</span>
+<span class="text-green-600 dark:text-green-400 font-medium">40% reduction in load times via code-splitting</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-auto">
+<details class="relative group/details">
+<summary class="cursor-pointer inline-flex items-center text-primary font-bold text-sm hover:text-primary-hover transition-colors select-none">
+                                        Technical Deep Dive
+                                        <span class="material-symbols-outlined ml-1 text-lg group-open/details:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="absolute top-8 left-0 w-80 p-4 bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl z-50 text-sm">
+<h4 class="font-bold text-slate-900 dark:text-white mb-2">Problem</h4>
+<p class="text-slate-600 dark:text-slate-400 mb-2">Legacy dashboard was crashing with &gt;1000 rows.</p>
+<h4 class="font-bold text-slate-900 dark:text-white mb-2">Approach</h4>
+<p class="text-slate-600 dark:text-slate-400">Implemented windowing (virtualization) and web workers for data processing.</p>
+</div>
+</details>
+<div class="flex-grow"></div>
+<a class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#" title="View Live">
+<span class="material-symbols-outlined text-xl">open_in_new</span>
+</a>
+<a class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#" title="View Code">
+<span class="material-symbols-outlined text-xl">code</span>
+</a>
+</div>
+</div>
+</div>
+<div class="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-7 rounded-2xl bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg hover:shadow-violet-accent/10 transition-all duration-300 relative aspect-video">
+<div class="absolute inset-0 bg-gradient-to-tr from-slate-900/10 to-transparent z-10"></div>
+<img alt="Abstract 3D rendered shapes in blue and purple lighting" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCI4ctGHWkZmyzb436c3klZ-ZIQQzH2auZZaKfbgrzYPuJ8LP_7OF7Zn7Us8_g7dMML0Gc5obSZmfkXayqgbZdZnCXW4jpqAqeqpmoHQFaSq4j3-PSVBhqq0hq13XlxxvKNZcFjfCzoeesxAV2yTx-4zPK7LIjY8c5Gw7rrlwKHIwwuDUPEgDMSSqU1CPu_Z-tts-hpEJxWcTG4p9EH2mfQzFTbc0ahtJHve-TEIruz5JCMMDzlN_HyuICYGUfYGOFrmsHTOmgKLA"/>
+</div>
+<div class="lg:col-span-5 flex flex-col h-full">
+<div class="flex items-center gap-2 mb-4">
+<span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300">Experimental</span>
+</div>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Nebula: Generative 3D Landing Page</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                                A highly interactive conceptual site utilizing custom GLSL Shaders and Three.js performance optimizations. Features physics-based particle systems.
+                            </p>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 text-sm mb-6 border-t border-b border-slate-200 dark:border-slate-800 py-4">
+<div>
+<span class="block text-slate-500 dark:text-slate-500 text-xs uppercase font-semibold">Role</span>
+<span class="text-slate-800 dark:text-slate-200">Creative Dev</span>
+</div>
+<div>
+<span class="block text-slate-500 dark:text-slate-500 text-xs uppercase font-semibold">Challenge</span>
+<span class="text-slate-800 dark:text-slate-200">60FPS on Mobile</span>
+</div>
+<div class="col-span-2">
+<span class="block text-slate-500 dark:text-slate-500 text-xs uppercase font-semibold">Outcome</span>
+<span class="text-green-600 dark:text-green-400 font-medium">Awarded "Site of the Day" on Awwwards</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mt-auto">
+<details class="relative group/details">
+<summary class="cursor-pointer inline-flex items-center text-primary font-bold text-sm hover:text-primary-hover transition-colors select-none">
+                                        Technical Deep Dive
+                                        <span class="material-symbols-outlined ml-1 text-lg group-open/details:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="absolute bottom-8 left-0 w-80 p-4 bg-surface-light dark:bg-surface-dark border border-slate-200 dark:border-slate-800 rounded-lg shadow-xl z-50 text-sm">
+<h4 class="font-bold text-slate-900 dark:text-white mb-2">Problem</h4>
+<p class="text-slate-600 dark:text-slate-400 mb-2">Heavy shader calculations were causing frame drops.</p>
+<h4 class="font-bold text-slate-900 dark:text-white mb-2">Approach</h4>
+<p class="text-slate-600 dark:text-slate-400">Optimized geometry instancing and reduced draw calls by merging meshes.</p>
+</div>
+</details>
+<div class="flex-grow"></div>
+<a class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#" title="View Live">
+<span class="material-symbols-outlined text-xl">open_in_new</span>
+</a>
+<a class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#" title="View Code">
+<span class="material-symbols-outlined text-xl">code</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-20 border-t border-slate-200 dark:border-slate-800 bg-surface-light dark:bg-surface-dark">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<span class="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-primary text-sm font-semibold mb-6">Career Objective</span>
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl mb-6">Available for Junior Frontend &amp; Internship roles starting [Summer 2024]</h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">
+                    I am ready to bring my skills in component architecture, performance optimization, and product thinking to a collaborative team.
+                </p>
+<div class="flex flex-col sm:flex-row justify-center gap-4">
+<button class="inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-base font-bold text-white shadow transition-colors hover:bg-primary-hover">
+<span class="mr-2 material-symbols-outlined">mail</span>
+                        Contact Me
+                    </button>
+<button class="inline-flex h-12 items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 bg-transparent px-8 text-base font-bold text-slate-700 dark:text-white shadow-sm transition-colors hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="mr-2 material-symbols-outlined">description</span>
+                        View Resume
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-slate-50 dark:bg-[#0b1120] py-12 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="text-slate-400">
+<span class="material-symbols-outlined text-2xl">code_off</span>
+</div>
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">© 2024. Built with React &amp; Tailwind.</span>
+</div>
+<div class="flex gap-6">
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors text-sm font-medium" href="#">LinkedIn</a>
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors text-sm font-medium" href="#">GitHub</a>
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors text-sm font-medium" href="#">Twitter</a>
+</div>
+</div>
+</footer>
+
+</body></html>
