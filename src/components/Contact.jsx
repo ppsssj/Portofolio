@@ -1,8 +1,14 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
   const handleChange = (e) => {
@@ -11,16 +17,40 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // mailto fallback — replace with actual endpoint if needed
-    const subject = encodeURIComponent(`Portfolio Contact from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
-    window.location.href = `mailto:ppssjj020222@naver.com?subject=${subject}&body=${body}`;
-    setIsSent(true);
-    setTimeout(() => setIsSent(false), 3000);
+    setIsSending(true);
+
+    // EmailJS Credentials - Replace with your own values
+    const SERVICE_ID = "service_c7wa754";
+    const TEMPLATE_ID = "template_gaco9g1";
+    const PUBLIC_KEY = "N9wzBHW8ilOpMf-ji";
+
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+    };
+
+    emailjs
+      .send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+      .then(() => {
+        setIsSent(true);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setIsSent(false), 5000);
+      })
+      .catch((error) => {
+        console.error("FAILED...", error);
+        alert("메시지 전송에 실패했습니다. 나중에 다시 시도해 주세요.");
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
   };
 
   return (
-    <section className="py-24 bg-background-light dark:bg-background-dark" id="contact">
+    <section
+      className="py-24 bg-background-light dark:bg-background-dark"
+      id="contact"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">
@@ -38,36 +68,50 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6 }}
           >
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">
               Send a Message
             </h3>
             <p className="text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
-              프로젝트 협업이나 문의 사항이 있으시면 언제든지 연락 주세요. 최대한 빠르게 답변드리겠습니다.
+              프로젝트 협업이나 문의 사항이 있으시면 언제든지 연락 주세요.
+              최대한 빠르게 답변드리겠습니다.
             </p>
 
             <div className="space-y-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-[var(--color-violet-accent)]/10 dark:from-primary/20 dark:to-[var(--color-violet-accent)]/20 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-primary text-xl">mail</span>
+                  <span className="material-symbols-outlined text-primary text-xl">
+                    mail
+                  </span>
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-900 dark:text-white text-sm">Email</div>
-                  <a href="mailto:ppssjj020222@naver.com" className="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors">
-                    ppssjj020222@naver.com
+                  <div className="font-semibold text-slate-900 dark:text-white text-sm">
+                    Email
+                  </div>
+                  <a
+                    href="mailto:ppssjj020222@gmail.com"
+                    className="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors"
+                  >
+                    ppssjj020222@gmail.com
                   </a>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-[var(--color-violet-accent)]/10 dark:from-primary/20 dark:to-[var(--color-violet-accent)]/20 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-pink-500 text-xl">location_on</span>
+                  <span className="material-symbols-outlined text-pink-500 text-xl">
+                    location_on
+                  </span>
                 </div>
                 <div>
-                  <div className="font-semibold text-slate-900 dark:text-white text-sm">Location</div>
-                  <span className="text-slate-500 dark:text-slate-400 text-sm">Suwon, South Korea</span>
+                  <div className="font-semibold text-slate-900 dark:text-white text-sm">
+                    Location
+                  </div>
+                  <span className="text-slate-500 dark:text-slate-400 text-sm">
+                    Suwon, South Korea
+                  </span>
                 </div>
               </div>
             </div>
@@ -77,12 +121,15 @@ export default function Contact() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="contact-name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                <label
+                  htmlFor="contact-name"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                >
                   Name
                 </label>
                 <input
@@ -97,7 +144,10 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="contact-email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                <label
+                  htmlFor="contact-email"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                >
                   Email
                 </label>
                 <input
@@ -112,7 +162,10 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label htmlFor="contact-message" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+                <label
+                  htmlFor="contact-message"
+                  className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                >
                   Message
                 </label>
                 <textarea
@@ -131,7 +184,7 @@ export default function Contact() {
                 className="w-full h-12 rounded-xl bg-gradient-to-r from-primary to-[var(--color-violet-accent)] text-white font-bold text-sm shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:translate-y-[-1px] transition-all flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-lg">send</span>
-                {isSent ? 'Sent!' : 'Send Message'}
+                {isSending ? "Sending..." : isSent ? "Sent!" : "Send Message"}
               </button>
             </form>
           </motion.div>

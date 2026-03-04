@@ -120,10 +120,10 @@ export default function Header() {
                 </motion.span>
               </div>
             </button>
-            <button className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-all hover:bg-primary-hover hover:shadow-md hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+            {/* <button className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-all hover:bg-primary-hover hover:shadow-md hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
               <span className="mr-2 material-symbols-outlined text-[18px]">download</span>
               Resume
-            </button>
+            </button> */}
           </nav>
 
           <button className="md:hidden text-slate-900 dark:text-white">

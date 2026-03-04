@@ -218,7 +218,7 @@ export const careerObjective = {
   primaryAction: {
     text: "Contact Me",
     icon: "mail",
-    href: "mailto:ppssjj020222@naver.com",
+    href: "mailto:ppssjj020222@gmail.com",
   },
   secondaryAction: { text: "View Resume", icon: "description", href: "#" },
 };
