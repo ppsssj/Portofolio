@@ -4,6 +4,8 @@ import gitEffectsGif from "../assets/git-effects.gif";
 import graphMindImg from "../assets/GraphMind.png";
 import trafficNoiseImg from "../assets/TrafficNoise.png";
 import codeGraphImg from "../assets/CodeGraph.png";
+import prismDesignGif from "../assets/Prismdesign.gif";
+
 export const navigation = [
   { name: "Home", href: "#" },
   { name: "Expertise", href: "#expertise" },
@@ -139,6 +141,28 @@ export const projects = [
         "Three.js / WebGL Instancing 기법을 적용하여 Draw Call을 최소화하고 시야 밖 Node는 Culling 처리.",
     },
     links: { live: "#", code: "https://github.com/ppsssj/GraphMind-monorepo" },
+    hoverColor: "violet-accent",
+  },
+  {
+    badge: "Interactive Web Application",
+    badgeColor: "violet",
+    title: "PrismDesign",
+    description:
+      "TouchDesigner를 모티브로 한 Browser-based Node Visual Programming Studio입니다. TOP/CHOP/SOP 스타일의 Operator를 그래프 형태로 연결해 실시간 시각 작업 흐름을 웹에서 구현했습니다.",
+    image: prismDesignGif,
+    role: "Solo Developer",
+    challenge: "Node-based Visual Programming UI",
+    outcome: "실시간 Graph Editor 및 Interactive Visual Pipeline 구조 구현",
+    deepDive: {
+      problem:
+        "데스크톱 기반 비주얼 프로그래밍 툴의 작업 방식을 웹 환경에서 직관적으로 재현하면서도, 노드 연결성과 인터랙션 흐름을 자연스럽게 설계해야 했습니다.",
+      approach:
+        "React 기반 그래프 UI와 Operator 중심 구조를 설계하고, 노드 연결·상태 관리·실시간 시각 피드백을 통해 브라우저에서도 실험적인 비주얼 프로그래밍 경험을 제공하도록 구현했습니다.",
+    },
+    links: {
+      live: "#",
+      code: "https://github.com/ppsssj/PrismDesign",
+    },
     hoverColor: "violet-accent",
   },
   {
