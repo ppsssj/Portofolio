@@ -50,6 +50,45 @@ export const translations = {
     stack: {
       heading: "Technical Toolkit",
       subheading: "Technologies I work with daily.",
+      activityTitle: "Activity & Achievements",
+      activitySubheading: "Leadership, research, and award records that support execution.",
+      activityGroups: {
+        operations: "Operations",
+        research: "Research",
+        awards: "Awards",
+      },
+      activities: [
+        {
+          group: "operations",
+          period: "2025",
+          title: "LIKELION Operations Staff",
+          detail: "",
+        },
+        {
+          group: "operations",
+          period: "2025",
+          title: "Startup Club Team Lead",
+          detail: "",
+        },
+        {
+          group: "research",
+          period: "2025 - 2026",
+          title: "AICS Undergraduate Researcher",
+          detail: "",
+        },
+        {
+          group: "awards",
+          period: "2025",
+          title: "BLEP Data Utilization Competition - Encouragement Award",
+          detail: "",
+        },
+        {
+          group: "awards",
+          period: "2025",
+          title: "Korea Data Science Society - Best Paper Award",
+          detail: "",
+        },
+      ],
       categories: {
         "Core Stack": "Core Stack",
         "Visual & Motion": "Visual & Motion",
@@ -153,6 +192,45 @@ export const translations = {
     stack: {
       heading: "기술 스택",
       subheading: "실무에서 자주 사용하는 기술입니다.",
+      activityTitle: "활동 및 경력",
+      activitySubheading: "실행력을 보여주는 운영, 연구, 수상 이력입니다.",
+      activityGroups: {
+        operations: "운영",
+        research: "연구",
+        awards: "수상",
+      },
+      activities: [
+        {
+          group: "operations",
+          period: "2025",
+          title: "멋쟁이사자처럼 운영진",
+          detail: "",
+        },
+        {
+          group: "operations",
+          period: "2025",
+          title: "창업동아리 팀장",
+          detail: "",
+        },
+        {
+          group: "research",
+          period: "2025 - 2026",
+          title: "AICS 학부 연구생",
+          detail: "",
+        },
+        {
+          group: "awards",
+          period: "2025",
+          title: "BLEP 데이터 활용 경진대회-장려상",
+          detail: "",
+        },
+        {
+          group: "awards",
+          period: "2025",
+          title: "한국데이터사이언스학회-최우수 논문상",
+          detail: "",
+        },
+      ],
       categories: {
         "Core Stack": "핵심 스택",
         "Visual & Motion": "시각화 및 모션",
