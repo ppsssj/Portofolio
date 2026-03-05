@@ -16,9 +16,14 @@ export const navigation = [
 
 export const heroInfo = {
   status: "Open to Work",
-  titleLines: ["Building Interactive", "Frontend Products"],
+  titleLines: ["Building Practical", "AI-Driven Frontend Tools"],
   description:
-    "I build pixel-perfect UI and scalable component architectures with a focus on interaction design. Turning complex requirements into polished, product-focused implementations.",
+    "I am a frontend-focused developer who combines strong implementation skills with AI and research experience to build practical, tool-like products people can actually use.",
+  liveMetrics: [
+    { label: "GitHub Commits (All-time)", value: "..." },
+    { label: "Public Repos", value: "..." },
+    { label: "Followers", value: "..." },
+  ],
   primaryAction: {
     text: "View Selected Work",
     href: "#projects",

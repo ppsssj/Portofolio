@@ -1,6 +1,11 @@
 import { footerInfo } from '../data/portfolioData';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export default function Footer() {
+  const { language } = useLanguage();
+  const t = translations[language].footer;
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -19,7 +24,7 @@ export default function Footer() {
             </div>
             <div>
               <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white block">ppsssj.dev</span>
-              <span className="text-xs text-slate-500 dark:text-slate-400">Frontend & Interaction Engineer</span>
+              <span className="text-xs text-slate-500 dark:text-slate-400">{t.subtitle}</span>
             </div>
           </div>
 
@@ -27,7 +32,7 @@ export default function Footer() {
             onClick={scrollToTop}
             className="group inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors"
           >
-            Back to top
+            {t.backToTop}
             <span className="material-symbols-outlined text-lg group-hover:-translate-y-1 transition-transform">arrow_upward</span>
           </button>
         </div>
@@ -35,7 +40,7 @@ export default function Footer() {
         {/* Bottom row: copyright + links */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
           <span className="text-slate-400 dark:text-slate-500 text-sm">
-            {footerInfo.copyright}
+            {t.copyright || footerInfo.copyright}
           </span>
           <div className="flex items-center gap-6">
             {footerInfo.links.map((link, idx) => (

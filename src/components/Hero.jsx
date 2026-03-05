@@ -1,7 +1,132 @@
-import { heroInfo } from '../data/portfolioData';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from "react";
+import { heroInfo } from "../data/portfolioData";
+import { motion } from "framer-motion";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../data/translations";
+
+const GITHUB_USERNAME = "ppsssj";
+const GITHUB_CACHE_TTL = 1000 * 60 * 60 * 6;
+
+const GITHUB_HEADERS = {
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28",
+};
+
+const formatCount = (value) => new Intl.NumberFormat("en-US").format(value ?? 0);
+
+function isValidMetricsShape(data) {
+  return (
+    data &&
+    typeof data === "object" &&
+    !Array.isArray(data) &&
+    Number.isFinite(data.commits) &&
+    Number.isFinite(data.repos) &&
+    Number.isFinite(data.followers)
+  );
+}
+
+function coerceLegacyMetrics(data) {
+  if (!Array.isArray(data)) return null;
+  const parse = (raw) => {
+    if (typeof raw !== "string" && typeof raw !== "number") return 0;
+    const digits = String(raw).replace(/[^\d]/g, "");
+    return digits ? Number(digits) : 0;
+  };
+  return {
+    commits: parse(data[0]?.value),
+    repos: parse(data[1]?.value),
+    followers: parse(data[2]?.value),
+  };
+}
+
+async function fetchGithubMetrics(username) {
+  const cacheKey = `hero_github_metrics_${username}_all_time`;
+
+  try {
+    const cachedRaw = localStorage.getItem(cacheKey);
+    if (cachedRaw) {
+      const cached = JSON.parse(cachedRaw);
+      if (Date.now() - cached.timestamp < GITHUB_CACHE_TTL && cached.data) {
+        if (isValidMetricsShape(cached.data)) {
+          return cached.data;
+        }
+        const legacy = coerceLegacyMetrics(cached.data);
+        if (legacy && isValidMetricsShape(legacy)) {
+          localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: legacy }));
+          return legacy;
+        }
+        localStorage.removeItem(cacheKey);
+      }
+    }
+  } catch {
+    // Ignore cache parsing issues and continue with fresh fetch.
+  }
+
+  const [userRes, commitsRes] = await Promise.all([
+    fetch(`https://api.github.com/users/${username}`, { headers: GITHUB_HEADERS }),
+    fetch(`https://api.github.com/search/commits?q=author:${username}`, {
+      headers: GITHUB_HEADERS,
+    }),
+  ]);
+
+  if (!userRes.ok || !commitsRes.ok) {
+    throw new Error("Failed to fetch GitHub metrics.");
+  }
+
+  const userData = await userRes.json();
+  const commitsData = await commitsRes.json();
+
+  const metrics = {
+    commits: Number(commitsData.total_count) || 0,
+    repos: Number(userData.public_repos) || 0,
+    followers: Number(userData.followers) || 0,
+  };
+
+  try {
+    localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), data: metrics }));
+  } catch {
+    // Ignore cache write issues.
+  }
+
+  return metrics;
+}
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const t = translations[language].hero;
+  const [githubMetrics, setGithubMetrics] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    fetchGithubMetrics(GITHUB_USERNAME)
+      .then((metrics) => {
+        if (isMounted) setGithubMetrics(metrics);
+      })
+      .catch(() => {
+        // Keep fallback metrics from portfolioData on API failures.
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const liveMetrics = [
+    {
+      label: t.metrics.commits,
+      value: githubMetrics ? formatCount(githubMetrics.commits) : "...",
+    },
+    {
+      label: t.metrics.repos,
+      value: githubMetrics ? formatCount(githubMetrics.repos) : "...",
+    },
+    {
+      label: t.metrics.followers,
+      value: githubMetrics ? formatCount(githubMetrics.followers) : "...",
+    },
+  ];
+
   return (
     <section className="relative overflow-hidden py-20 sm:py-24 lg:pb-32 xl:pb-36 bg-background-light dark:bg-background-dark transition-colors duration-500">
       {/* Background Effects */}
@@ -22,16 +147,16 @@ export default function Hero() {
         >
           <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary mb-6 backdrop-blur-sm">
             <span className="flex h-2 w-2 rounded-full bg-primary mr-2 animate-pulse"></span>
-            {heroInfo.status}
+            {t.status}
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-6 leading-[1.1]">
-            {heroInfo.titleLines[0]} <br />
-            <span className="text-gradient">{heroInfo.titleLines[1]}</span>
+            {t.titleLines[0]} <br />
+            <span className="text-gradient">{t.titleLines[1]}</span>
           </h1>
 
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-            {heroInfo.description}
+            {t.description}
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -39,7 +164,7 @@ export default function Hero() {
               href={heroInfo.primaryAction.href}
               className="group inline-flex h-12 items-center justify-center rounded-lg bg-primary px-8 text-sm font-bold text-white shadow-lg shadow-[var(--color-primary)]/25 transition-all hover:bg-primary-hover hover:translate-y-[-2px] hover:shadow-xl hover:shadow-[var(--color-primary)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              {heroInfo.primaryAction.text}
+              {t.primaryAction}
               <span className="ml-2 material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
                 {heroInfo.primaryAction.icon}
               </span>
@@ -49,8 +174,32 @@ export default function Hero() {
               className="inline-flex h-12 items-center justify-center rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm px-8 text-sm font-bold text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
             >
               <span className="mr-2 material-symbols-outlined text-[20px]">{heroInfo.secondaryAction.icon}</span>
-              {heroInfo.secondaryAction.text}
+              {t.secondaryAction}
             </a>
+          </div>
+
+          <div className="mt-8 rounded-xl border border-slate-200/60 dark:border-slate-700/60 bg-white/70 dark:bg-slate-900/55 backdrop-blur-sm p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+                {t.liveGithub}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {liveMetrics.map((metric, idx) => (
+                <motion.div
+                  key={metric.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: 0.1 * idx }}
+                  className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800/45 px-3 py-2"
+                >
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">{metric.label}</div>
+                  <div className="text-base font-extrabold text-slate-900 dark:text-white">{metric.value}</div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
 

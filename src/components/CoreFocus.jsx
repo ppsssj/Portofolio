@@ -1,7 +1,12 @@
 import { coreFocus } from '../data/portfolioData';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export default function CoreFocus() {
+  const { language } = useLanguage();
+  const t = translations[language].coreFocus;
+
   const getColorClasses = (colorScheme) => {
     switch (colorScheme) {
       case 'blue':
@@ -47,15 +52,16 @@ export default function CoreFocus() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            My Core Focus
+            {t.heading}
           </h2>
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">
-            I don't just write code; I build product experiences. My approach combines technical depth with a keen eye for interaction design.
+            {t.subheading}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {coreFocus.map((item, idx) => {
+            const copy = t.items[idx];
             const colors = getColorClasses(item.colorScheme);
             return (
               <motion.div
@@ -78,10 +84,10 @@ export default function CoreFocus() {
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">
-                  {item.title}
+                  {copy?.title ?? item.title}
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {item.description}
+                  {copy?.description ?? item.description}
                 </p>
               </motion.div>
             );

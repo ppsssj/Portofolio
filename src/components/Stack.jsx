@@ -1,7 +1,12 @@
 import { techStack } from '../data/portfolioData';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export default function Stack() {
+  const { language } = useLanguage();
+  const t = translations[language].stack;
+
   const getCategoryIcon = (category) => {
     switch (category) {
       case 'Core Stack': return 'terminal';
@@ -16,9 +21,9 @@ export default function Stack() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-10">
           <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-            Technical Toolkit
+            {t.heading}
           </h2>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Technologies I work with daily.</p>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t.subheading}</p>
         </div>
         <div className="space-y-8">
           {techStack.map((category, idx) => (
@@ -35,7 +40,7 @@ export default function Stack() {
                   {getCategoryIcon(category.category)}
                 </span>
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  {category.category}
+                  {t.categories[category.category] ?? category.category}
                 </h3>
               </div>
               <div className="flex flex-wrap gap-3">

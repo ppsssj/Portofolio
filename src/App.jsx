@@ -8,6 +8,7 @@ import Projects from "./components/Projects";
 import CTA from "./components/CTA";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import ScrollScene from "./components/ScrollScene";
 
 import Intro from "./components/Intro";
 
@@ -27,16 +28,29 @@ function App() {
     return <Intro onSkip={() => setShowIntro(false)} />;
   }
 
+  const scenes = [
+    { key: "hero", tone: "primary", depth: "strong", node: <Hero /> },
+    { key: "core-focus", tone: "violet", depth: "medium", node: <CoreFocus /> },
+    { key: "stack", tone: "cyan", depth: "soft", node: <Stack /> },
+    { key: "projects", tone: "violet", depth: "flat", node: <Projects /> },
+    { key: "cta", tone: "primary", depth: "medium", node: <CTA /> },
+    { key: "contact", tone: "cyan", depth: "soft", node: <Contact /> },
+  ];
+
   return (
-    <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col w-full">
+    <div className="scroll-stage bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col w-full">
       <Header />
       <main className="flex-grow w-full">
-        <Hero />
-        <CoreFocus />
-        <Stack />
-        <Projects />
-        <CTA />
-        <Contact />
+        {scenes.map((scene) => (
+          <ScrollScene
+            key={scene.key}
+            tone={scene.tone}
+            depth={scene.depth}
+            className="scroll-stage__scene"
+          >
+            {scene.node}
+          </ScrollScene>
+        ))}
       </main>
       <Footer />
     </div>

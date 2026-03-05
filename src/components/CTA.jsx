@@ -1,7 +1,12 @@
 import { careerObjective } from '../data/portfolioData';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export default function CTA() {
+  const { language } = useLanguage();
+  const t = translations[language].cta;
+
   return (
     <section className="relative py-24 overflow-hidden bg-background-light dark:bg-background-dark">
       {/* Gradient background overlay */}
@@ -19,13 +24,13 @@ export default function CTA() {
         transition={{ duration: 0.7, ease: 'easeOut' }}
       >
         <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 dark:bg-primary/15 border border-primary/20 text-primary text-sm font-semibold mb-8 backdrop-blur-sm">
-          {careerObjective.badge}
+          {t.badge}
         </span>
         <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl lg:text-5xl mb-6 leading-tight">
-          {careerObjective.title}
+          {t.title}
         </h2>
         <p className="text-lg text-slate-600 dark:text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-          {careerObjective.description}
+          {t.description}
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <a 
@@ -33,14 +38,14 @@ export default function CTA() {
             className="group inline-flex h-14 items-center justify-center rounded-xl bg-primary px-10 text-base font-bold text-white shadow-lg shadow-[var(--color-primary)]/25 transition-all hover:bg-primary-hover hover:translate-y-[-2px] hover:shadow-xl hover:shadow-[var(--color-primary)]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <span className="mr-2 material-symbols-outlined">{careerObjective.primaryAction.icon}</span>
-            {careerObjective.primaryAction.text}
+            {t.primary}
           </a>
           <a
             href={careerObjective.secondaryAction.href}
             className="inline-flex h-14 items-center justify-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-800/50 backdrop-blur-sm px-10 text-base font-bold text-slate-700 dark:text-white shadow-sm transition-all hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <span className="mr-2 material-symbols-outlined">{careerObjective.secondaryAction.icon}</span>
-            {careerObjective.secondaryAction.text}
+            {t.secondary}
           </a>
         </div>
       </motion.div>
