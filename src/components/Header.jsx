@@ -69,7 +69,7 @@ export default function Header() {
             <div className="text-primary p-1 bg-primary/10 rounded-md">
               <span className="material-symbols-outlined text-2xl">code_off</span>
             </div>
-            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">ppsssj.dev</span>
+            <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white">ppsssj Portfolio</span>
           </div>
 
           <nav className="hidden md:flex items-center gap-8">
